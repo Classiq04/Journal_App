@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    container_name: classiq04/journal-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+
+  frontend:
+    image: nginx:alpine
+    container_name: journal_frontend
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - "8000:80"
+    restart: unless-stopped
