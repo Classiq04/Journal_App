@@ -3,7 +3,7 @@ version: "3.9"
 services:
   backend:
     build: ./backend
-    container_name: classiq04/journal-api
+    container_name: journal_backend  # Changed from invalid name
     ports:
       - "5000:5000"
     volumes:
@@ -12,9 +12,9 @@ services:
 
   frontend:
     image: nginx:alpine
-    container_name: journal_frontend
+    container_name: journal_frontend  # Explicit name (optional)
     volumes:
       - ./frontend:/usr/share/nginx/html
     ports:
-      - "8000:80"
+      - "8080:80"
     restart: unless-stopped
