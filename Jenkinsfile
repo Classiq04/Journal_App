@@ -1,9 +1,16 @@
 pipeline {
     agent any
     stages {
-        stage('Cleanup') {
+        stage('Force Cleanup') {
             steps {
-                sh 'docker compose down || true'
+                script {
+                    // Force remove any containers with these names if they exist
+                    sh '''
+                        docker rm -f journal_backend || true
+                        docker rm -f journal_frontend || true
+                        docker network prune -f
+                    '''
+                }
             }
         }
         stage('Build & Run') {
@@ -13,14 +20,20 @@ pipeline {
         }
         stage('Verify') {
             steps {
-                sh 'sleep 5' // Give containers time to start
+                sleep 5
                 sh 'curl -s http://localhost:5000/entries | jq .'
             }
         }
     }
     post {
         always {
-            sh 'docker compose down' // Final cleanup
+            sh '''
+                docker compose down || true
+                docker rm -f journal_backend journal_frontend || true
+            '''
         }
     }
 }
+      
+
+
