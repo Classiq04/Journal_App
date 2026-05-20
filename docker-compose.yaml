@@ -3,7 +3,7 @@ version: "3.9"
 services:
   backend:
     build: ./backend
-    container_name: journal_backend  # Changed from invalid name
+    container_name: journal_backend
     ports:
       - "5000:5000"
     volumes:
@@ -12,7 +12,7 @@ services:
 
   frontend:
     image: nginx:alpine
-    container_name: journal_frontend  # Explicit name (optional)
+    container_name: journal_frontend
     volumes:
       - ./frontend:/usr/share/nginx/html
     ports:
